@@ -5,7 +5,7 @@ import List from './components/List/List';
 import Input from './components/Input/Input';
 
 
-
+//log
 function App() {
     const [show, setShow] = useState(false)
     const [newTask, setNewTask] = useState('')
