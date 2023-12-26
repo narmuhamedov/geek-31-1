@@ -1,0 +1,25 @@
+.done, .delete, .edit{
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+
+}
+
+
+.done{
+    background-color: green;
+    color: wheat;
+    cursor: pointer;
+}
+
+.delete{
+    background-color: red;
+    cursor: pointer;
+}
+
+.edit{
+    background-color: blue;
+    cursor: pointer;
+}

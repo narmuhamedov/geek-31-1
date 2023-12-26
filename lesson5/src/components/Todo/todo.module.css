@@ -7,6 +7,12 @@
     align-items: center;
 }
 
-.isDone{
+.completed {
+    text-decoration: underline;
+    background-color: #61dafb;
+}
+
+.completed {
     text-decoration: line-through;
+    background-color: #61dafb;
 }
