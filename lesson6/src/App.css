@@ -1,0 +1,41 @@
+.App {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.btn {
+  margin: 50px;
+  border-radius: 20px;
+  width: 200px;
+  height: 100px;
+  cursor: pointer;
+}
+
+/* Добавьте стили в ваши CSS или в App.css */
+
+/* Стили для выпадающего списка */
+select {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+
+.btn-clear {
+  background-color: #ff6347;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-clear:hover {
+  background-color: #ff4838;
+}

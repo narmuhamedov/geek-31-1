@@ -3,6 +3,7 @@ import Modal from './components/Modal/Modal';
 import {useEffect, useState} from 'react';
 import List from './components/List/List';
 import Input from './components/Input/Input';
+import Pagination from "./components/Pagination/Pagination";
 
 
 //log
@@ -67,6 +68,44 @@ function App() {
         setTasks(filteredTasks);
     };
 
+    const BASE_URL = 'https://jsonplaceholder.typicode.com/'
+    const getTodos = async (endpoint) => {
+        const data = await fetch(BASE_URL + endpoint)
+        const todos = await (data.json())
+        setTasks(todos)
+        return todos
+    }
+
+    const limit = 10;
+    const [offset, setOffset] = useState(1)
+    const page = Math.floor(offset / limit) + 1
+    const handlePrev = () => {
+        if (offset > 0) {
+            setOffset(prev => prev - limit);
+        }
+    };
+
+    const handleNext = () => {
+        setOffset(prev => prev + limit);
+    };
+
+
+// Убедимся, что запрос к серверу учитывает лимит и смещение
+    useEffect(() => {
+        const fetchTodos = async () => {
+            try {
+                const data = await fetch(`https://jsonplaceholder.typicode.com/todos?_limit=${limit}&_start=${offset}`);
+                const todos = await data.json();
+                setTasks(todos);
+            } catch (error) {
+                console.error('Error fetching todos:', error);
+            }
+        };
+
+        fetchTodos();
+    }, [limit, offset]);
+
+
     useEffect(() => {
         const myLocalList = JSON.parse(localStorage.getItem('tasks'))
         if (myLocalList === null) {
@@ -106,7 +145,7 @@ function App() {
     return (
         <div className="App">
             <br/>
-            <select  className="filter-select" value={filterType} onChange={handleFilterChange}>
+            <select className="filter-select" value={filterType} onChange={handleFilterChange}>
                 <option value="all">Все таски</option>
                 <option value="completed">Выполненные</option>
                 <option value="uncompleted">Не выполненные</option>
@@ -125,7 +164,9 @@ function App() {
                     handleAdd={handleAdd}
                 />
             }
-           <List tasks={getFilteredTasks()} handleDelete={handleDelete} handleEdit={handleEdit} handleDone={handleDone} />
+            <List tasks={getFilteredTasks()} handleDelete={handleDelete} handleEdit={handleEdit}
+                  handleDone={handleDone}/>
+            <Pagination page={page} handlePrev={handlePrev} handleNext={handleNext}/>
         </div>
     );
 }
