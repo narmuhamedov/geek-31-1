@@ -1,26 +1,45 @@
-import React, {useState} from 'react';
-import UsersPage from "./pages/usersPage/UsersPage";
-import FormPage from "./pages/formPage/FormPage";
+import './App.css';
+import UsersPage from './pages/usersPage/UsersPage';
+import { useEffect, useState } from 'react';
+import FormPage from './pages/formPage/FormPage';
+import axios from 'axios';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Menu from './components/menu/Menu';
+import Pokemon from './pages/Pokemon/Pokemon';
 
-function App(props) {
 
-    const [users, setUsers] = useState([])
+function App() {
 
-    const getUsers = () => {
-        fetch('https://jsonplaceholder.typicode.com/users')
-            .then(response => response.json())
-            .then(data=>setUsers(data))
+  const [ users, setUsers ] = useState([]);
 
+
+  const getUsersAxios = async() => {
+    try {
+      const { data } = await axios.get('https://jsonplaceholder.typicode.com/users');
+      return data;
+    } catch(e) {
+      console.log('Error', e.message);
     }
+  };
 
-    return (
-        <div>
-            <h1>Lesson6</h1>
-            <button onClick={getUsers}>get</button>
-            <UsersPage users={users}/>
-            <FormPage/>
-        </div>
-    );
+
+
+  console.log('=======================', users);
+  useEffect(() => {
+    getUsersAxios().then((users)=>setUsers(users))
+  }, []);
+
+  return (
+  <BrowserRouter>
+    <Menu/>
+    <Routes>
+      <Route path='/' element={<UsersPage users={users}/>}/>
+      <Route path='/form' element={<FormPage/>}/>
+      <Route path='/pokemon' element={<Pokemon/>}/>
+    </Routes>
+  </BrowserRouter>
+  );
 }
+
 
 export default App;
